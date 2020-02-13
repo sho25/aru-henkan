@@ -9,4 +9,4 @@
     </div>
 </template>
 
-<script lang='ts' src='./Main.ts'>
+<script lang='ts' src='./index.ts'>
