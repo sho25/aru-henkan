@@ -19,7 +19,6 @@ export default class AruHenkanConverter {
 
     public aruHenkan(text: string): string {
         const tokenizedArray = this.tokenizer.tokenize(text);
-        console.log(tokenizedArray);
         for (let token of tokenizedArray) {
             const sur = token['surface_form'] // 元の形
             if (token['pos'] === '名詞') {
@@ -27,13 +26,16 @@ export default class AruHenkanConverter {
                 if (reading === undefined) {
                     reading = sur;
                 }
-                console.log(reading);
                 const roma = this.converter.kana2roma(reading);
                 // ある変換をする
                 // i -> ai
                 const aruRoma = this.i2ai(roma);
-                const convertedKana = this.converter.roma2kana(aruRoma);
-                token['aruHenkan'] = convertedKana;
+                try {
+                    const convertedKana = this.converter.roma2kana(aruRoma);
+                    token['aruHenkan'] = convertedKana;
+                } catch (error) {
+                    token['aruHenkan'] = sur;
+                }
             } else {
                 token['aruHenkan'] = sur;
             }
