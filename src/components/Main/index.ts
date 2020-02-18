@@ -1,6 +1,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import { builder } from 'kuromoji';
 import MsgDisplayer from '@/components/MsgDisplayer/index.vue';
+import RomaKanaConverter from '@/Converter/RomaKanaConverter';
 
 @Component({
     components: {
@@ -15,6 +16,7 @@ export default class Main extends Vue {
     private builder!: any;
     private aruHenkan: string = '';
     private aruGyakuHenkan: string = '';
+    private converter!: RomaKanaConverter;
 
     mounted() {
         this.buildTokenizer().then(
@@ -29,6 +31,7 @@ export default class Main extends Vue {
         );
         this.aruHenkan = '';
         this.aruGyakuHenkan = 'comming soon...';
+        this.converter = new RomaKanaConverter();
     }
 
     /**
