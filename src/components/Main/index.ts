@@ -1,7 +1,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import { builder } from 'kuromoji';
 import MsgDisplayer from '@/components/MsgDisplayer/index.vue';
-import RomaKanaConverter from '@/Converter/RomaKanaConverter';
+import AruHenkanConverter from '@/AruHenkan/AruHenkanConverter';
 
 @Component({
     components: {
@@ -12,26 +12,24 @@ export default class Main extends Vue {
     private userInput: string = 'オタクはモリモリと飯を食え';
     private initialMessage: string = 'loading dic...';
     private buildSuccess: boolean = false;
-    private tokenizer!: any;
     private builder!: any;
     private aruHenkan: string = '';
     private aruGyakuHenkan: string = '';
-    private converter!: RomaKanaConverter;
+    private converter!: AruHenkanConverter;
 
     mounted() {
         this.buildTokenizer().then(
             () => {
                 this.buildSuccess = true;
                 this.initialMessage = 'build success';
+                this.aruHenkan = this.converter.aruHenkan(this.userInput);
             }
         ).catch(
             () => {
                 this.initialMessage = 'Loading dic failed.<br>Reload and try again';
             }
         );
-        this.aruHenkan = '';
         this.aruGyakuHenkan = 'comming soon...';
-        this.converter = new RomaKanaConverter();
     }
 
     /**
@@ -47,15 +45,13 @@ export default class Main extends Vue {
             if (err) {
                 throw err;
             }
-            this.tokenizer = tokenizer;
-            // var tokens = tokenizer.tokenize("有給を取るとなぜか雨が降る");
-            // console.dir(tokens);
+            
+            this.converter = new AruHenkanConverter(tokenizer);
         });
     }
 
     @Watch('userInput')
     private convert() {
-        // const tokens = this.tokenizer.tokenize(text);
-        // return tokens;
+        this.aruHenkan = this.converter.aruHenkan(this.userInput);
     }
 }
