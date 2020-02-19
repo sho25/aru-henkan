@@ -69,9 +69,10 @@ export default class RomaKanaConverter {
             // 母音->次の文字から新しい区切り
             if (i + 1 < text.length && vowels.includes(text.charAt(i))) {
                 kanaCharIdx.push(i + 1);
-            // nが2連続 -> 1つ目のnからみて2文字あとから新しい区切り
+            // nが3連続 -> 1つ目のnからみて2文字あとから新しい区切り
+            // ko nn ni ti ha などの場合
             // TODO: nn nnの時は対応できないので追加
-            } else if (i + 2 < text.length && i - 1 > 0 && vowels.includes(text.charAt(i-1)) && text.charAt(i) === 'n' && text.charAt(i + 1) === 'n') {
+            } else if (i + 2 < text.length && i - 1 >= 0 && vowels.includes(text.charAt(i-1)) && text.charAt(i) === 'n' && text.charAt(i + 1) === 'n') {
                 kanaCharIdx.push(i + 2);
             }
         }

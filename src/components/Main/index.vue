@@ -1,12 +1,12 @@
 <template>
     <v-app id='main'>
+        <h1>ある変換</h1>
         <v-container>
-            <h1>ある変換</h1>
             <div v-if="!buildSuccess">
                 {{ initialMessage }}
             </div>
             <div v-else>
-                <!-- <MsgDisplayer :tokenizedMessage="aruGyakuHenkan"/> -->
+                <!-- <MsgDisplayer :message="aruGyakuHenkan"/> -->
                 <!-- <p>↑ある逆変換</p> -->
                 <v-text-field 
                     class="user-input"
@@ -16,7 +16,8 @@
                     outlined
                 />
                 <p>↓ある変換</p>
-                <MsgDisplayer :tokenizedMessage="aruHenkan"/>
+                <MsgDisplayer :message="aruHenkan"/>
+                <button @click="twitterShare">tweet</button>
             </div>
         </v-container>
     </v-app>
@@ -26,9 +27,10 @@
 
 <style scoped>
 .v-text-field {
-    width: 50%;
+    width: 100%;
+    max-width: 300px;
 }
-.v-input__slot {
+.container {
     align-items: center;
 }
 </style>

@@ -31,19 +31,20 @@ export default class AruHenkanConverter {
         // 形態素解析
         const tokenizedArray = this.tokenizer.tokenize(text);
         for (let token of tokenizedArray) {
-            const sur = token['surface_form'] // 元の形
+            const sur: string = token['surface_form'] // 元の形
             if (token['pos'] === '名詞') {
-                let reading = token['reading']
+                // 最初にカタカナの読みを取得する
+                let reading: string = token['reading']
+                // 最初からカタカナのものはsurface_formにする
                 if (reading === undefined) {
                     reading = sur;
                 }
-                const roma = this.converter.kana2roma(reading);
-                // ある変換をする
-                // i -> ai
-                const aruRoma = this.i2ai(roma);
                 try {
-                    const convertedKana = this.converter.roma2kana(aruRoma);
-                    token['aruHenkan'] = convertedKana;
+                    const roma: string = this.converter.kana2roma(reading);
+                    // ある変換をする
+                    // i -> ai
+                    const aruRoma: string = this.i2ai(roma);
+                    token['aruHenkan'] = this.converter.roma2kana(aruRoma);
                 } catch (error) {
                     token['aruHenkan'] = sur;
                 }
