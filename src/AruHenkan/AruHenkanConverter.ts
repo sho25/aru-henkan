@@ -5,6 +5,11 @@ export default class AruHenkanConverter {
     constructor(private tokenizer: any) {
     }
 
+    /**
+     * ローマ字の文字列のiをaiに変更して返す
+     * @param {string} 変換したい文字列
+     * @returns {string} 変換された文字列
+     */
     private i2ai(text: string): string {
         let convertedText = '';
         for (let i = 0; i < text.length; i++) {
@@ -17,7 +22,13 @@ export default class AruHenkanConverter {
         return convertedText;
     }
 
+    /**
+     * 文字列を形態素解析してある変換をする
+     * @param {string} 変換したい文字列 
+     * @returns {string} 変換後の文字列
+     */
     public aruHenkan(text: string): string {
+        // 形態素解析
         const tokenizedArray = this.tokenizer.tokenize(text);
         for (let token of tokenizedArray) {
             const sur = token['surface_form'] // 元の形
@@ -40,8 +51,6 @@ export default class AruHenkanConverter {
                 token['aruHenkan'] = sur;
             }
         }
-        let aruHenkan = '';
-        tokenizedArray.map((token: any) => aruHenkan += token['aruHenkan']);
-        return aruHenkan;
+        return tokenizedArray.reduce((acc: string, cur: any) => acc += cur['aruHenkan'], '');
     }
 }

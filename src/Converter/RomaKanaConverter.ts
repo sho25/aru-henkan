@@ -53,6 +53,10 @@ export default class RomaKanaConverter {
         return convertedText;
     }
 
+    /**
+     * かな基準でローマ字の文字列を分割する
+     * @param text 
+     */
     private createKanaSplitList(text: string): string[] {
         const vowels: string[] = ['a', 'i', 'u', 'e', 'o'];
         if (text.length === 0) {

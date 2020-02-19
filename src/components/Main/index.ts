@@ -22,7 +22,7 @@ export default class Main extends Vue {
             () => {
                 this.buildSuccess = true;
                 this.initialMessage = 'build success';
-                this.aruHenkan = this.converter.aruHenkan(this.userInput);
+                this.aruHenkan = 'オタクはモライモライとメサイを食え';
             }
         ).catch(
             () => {
@@ -45,7 +45,6 @@ export default class Main extends Vue {
             if (err) {
                 throw err;
             }
-            
             this.converter = new AruHenkanConverter(tokenizer);
         });
     }
