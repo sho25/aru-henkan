@@ -1,19 +1,20 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import { builder } from 'kuromoji';
-import MsgDisplayer from '@/components/MsgDisplayer/index.vue';
+import AruDisplayer from '@/components/AruDisplayer/index.vue';
 import AruHenkanConverter from '@/AruHenkan/AruHenkanConverter';
 
 @Component({
     components: {
-        MsgDisplayer,
+        AruDisplayer,
     }
 })
 export default class Main extends Vue {
-    private userInput: string = 'オタクはモリモリと飯を食え';
+    private userInput: string = 'ここに文章を入力';
     private initialMessage: string = 'loading dic...';
     private buildSuccess: boolean = false;
     private builder!: any;
     private aruHenkan: string = '';
+    private aruHenkanMap!: any;
     private aruGyakuHenkan: string = '';
     private converter!: AruHenkanConverter;
 
@@ -21,7 +22,14 @@ export default class Main extends Vue {
         this.buildTokenizer().then(
             () => {
                 this.initialMessage = 'build success';
-                this.aruHenkan = 'オタクはモライモライとメサイを食え';
+                this.aruHenkan = 'ここに文章を入力';
+                this.aruHenkanMap = [
+                    {'pos': '名詞', 'aruHenkan': 'ココ'},
+                    {'pos': '詞', 'aruHenkan': 'に'},
+                    {'pos': '名詞', 'aruHenkan': 'ブンサイョウ'},
+                    {'pos': '詞', 'aruHenkan': 'を'},
+                    {'pos': '名詞', 'aruHenkan': 'ナイュウライョク'},
+                ];
                 this.buildSuccess = true;
             }
         ).catch(
@@ -51,13 +59,14 @@ export default class Main extends Vue {
 
     @Watch('userInput')
     private convert() {
-        this.aruHenkan = this.converter.aruHenkan(this.userInput);
+        this.aruHenkanMap = this.converter.aruHenkan(this.userInput);
+        this.aruHenkan = this.aruHenkanMap.reduce((acc: string, cur: any) => acc += cur['aruHenkan'], '');
     }
 
     private twitterShare() {
         let shareUrl = 'https://twitter.com/intent/tweet?text=';
         const siteUrl = 'http://localhost:8080/';
-        shareUrl += this.userInput + '%0D↓%0D' + this.aruHenkan + '%0D%20%23ある変換%0D' + siteUrl;
+        shareUrl += this.userInput + '%0D↓%0D' + this.aruHenkan + '%0D%20%23ある変換 %20%23aru-henkan-app%0D' + siteUrl;
         location.href = shareUrl;
     }
 }

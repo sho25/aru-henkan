@@ -27,7 +27,7 @@ export default class AruHenkanConverter {
      * @param {string} 変換したい文字列 
      * @returns {string} 変換後の文字列
      */
-    public aruHenkan(text: string): string {
+    public aruHenkan(text: string): Map<string, string>[] {
         // 形態素解析
         const tokenizedArray = this.tokenizer.tokenize(text);
         for (let token of tokenizedArray) {
@@ -52,6 +52,6 @@ export default class AruHenkanConverter {
                 token['aruHenkan'] = sur;
             }
         }
-        return tokenizedArray.reduce((acc: string, cur: any) => acc += cur['aruHenkan'], '');
+        return tokenizedArray;
     }
 }
