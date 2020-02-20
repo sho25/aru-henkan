@@ -2,10 +2,12 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
 import { builder } from 'kuromoji';
 import AruDisplayer from '@/components/AruDisplayer/index.vue';
 import AruHenkanConverter from '@/AruHenkan/AruHenkanConverter';
+import { VueLoading } from 'vue-loading-template';
 
 @Component({
     components: {
         AruDisplayer,
+        VueLoading,
     }
 })
 export default class Main extends Vue {
@@ -19,37 +21,35 @@ export default class Main extends Vue {
     private converter!: AruHenkanConverter;
 
     mounted() {
-        this.buildTokenizer().then(
-            () => {
-                this.initialMessage = 'build success';
-                this.aruHenkan = 'ココにブンサイョウをナイュウライョク';
-                this.aruHenkanMap = [
-                    {'pos': '名詞', 'aruHenkan': 'ココ'},
-                    {'pos': '詞', 'aruHenkan': 'に'},
-                    {'pos': '名詞', 'aruHenkan': 'ブンサイョウ'},
-                    {'pos': '詞', 'aruHenkan': 'を'},
-                    {'pos': '名詞', 'aruHenkan': 'ナイュウライョク'},
-                ];
-                this.buildSuccess = true;
-            }
-        ).catch(
+        this.buildTokenizer()
+        .then(() => {
+            this.initialMessage = 'build success';
+            this.aruHenkan = 'ココにブンサイョウをナイュウライョク';
+            this.aruHenkanMap = [
+                {'pos': '名詞', 'aruHenkan': 'ココ'},
+                {'pos': '詞', 'aruHenkan': 'に'},
+                {'pos': '名詞', 'aruHenkan': 'ブンサイョウ'},
+                {'pos': '詞', 'aruHenkan': 'を'},
+                {'pos': '名詞', 'aruHenkan': 'ナイュウライョク'},
+            ];
+            // this.buildSuccess = true;
+        })
+        .catch(
             () => {
                 this.initialMessage = 'Loading dic failed.<br>Reload and try again';
             }
         );
-        this.aruGyakuHenkan = 'comming soon...';
     }
 
     /**
      * awaitしながらkuromojiをビルドする
-     * @returns Promise<number>
      */
-    private async buildTokenizer(): Promise<number> {
+    private async buildTokenizer() {
         this.builder = builder({
             dicPath: './dict'
         });
 
-        return await this.builder.build((err: Error, tokenizer: any) => {
+        await this.builder.build((err: Error, tokenizer: any) => {
             if (err) {
                 throw err;
             }

@@ -9,7 +9,8 @@
         </v-app-bar>
         <v-container>
             <div v-if="!buildSuccess">
-                {{ initialMessage }}
+                <div :class="headline">loading.....</div>
+                <vue-loading type="spin" :size="{ width: '50px', height: '50px' }"/>
             </div>
             <div v-else>
                 <v-text-field 
