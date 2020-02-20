@@ -22,7 +22,7 @@ export default class Main extends Vue {
         this.buildTokenizer().then(
             () => {
                 this.initialMessage = 'build success';
-                this.aruHenkan = 'ここに文章を入力';
+                this.aruHenkan = 'ココにブンサイョウをナイュウライョク';
                 this.aruHenkanMap = [
                     {'pos': '名詞', 'aruHenkan': 'ココ'},
                     {'pos': '詞', 'aruHenkan': 'に'},
