@@ -32,7 +32,6 @@ export default class Main extends Vue {
                 {'pos': '詞', 'aruHenkan': 'を'},
                 {'pos': '名詞', 'aruHenkan': 'ナイュウライョク'},
             ];
-            this.buildSuccess = true;
         })
         .catch(
             () => {
@@ -49,11 +48,12 @@ export default class Main extends Vue {
             dicPath: './dict'
         });
 
-        await this.builder.build((err: Error, tokenizer: any) => {
+        this.builder.build((err: Error, tokenizer: any) => {
             if (err) {
                 throw err;
             }
             this.converter = new AruHenkanConverter(tokenizer);
+            this.buildSuccess = true;
         });
     }
 
