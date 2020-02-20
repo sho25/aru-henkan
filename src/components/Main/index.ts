@@ -32,7 +32,7 @@ export default class Main extends Vue {
                 {'pos': '詞', 'aruHenkan': 'を'},
                 {'pos': '名詞', 'aruHenkan': 'ナイュウライョク'},
             ];
-            // this.buildSuccess = true;
+            this.buildSuccess = true;
         })
         .catch(
             () => {
