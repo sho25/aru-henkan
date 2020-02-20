@@ -65,7 +65,7 @@ export default class Main extends Vue {
 
     private twitterShare() {
         let shareUrl = 'https://twitter.com/intent/tweet?text=';
-        const siteUrl = 'http://localhost:8080/';
+        const siteUrl = 'https://aru-henkan.herokuapp.com/';
         shareUrl += this.userInput + '%0D↓%0D' + this.aruHenkan + '%0D%20%23ある変換 %20%23aru-henkan-app%0D' + siteUrl;
         location.href = shareUrl;
     }
