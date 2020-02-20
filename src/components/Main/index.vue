@@ -5,7 +5,7 @@
             color="primary"
             dark
         >
-            <v-toolbar-title class="mx-auto">ある変換</v-toolbar-title>
+            <v-toolbar-title class="mx-auto"><b>ある変換</b></v-toolbar-title>
         </v-app-bar>
         <v-container>
             <div v-if="!buildSuccess">
@@ -37,7 +37,7 @@
 
 <style scoped>
 .v-text-field {
-    width: 50%;
+    width: 100%;
 }
 .container {
     align-items: center;
